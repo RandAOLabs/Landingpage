@@ -32,3 +32,4 @@ jobs:
       run: npm run deploy
       env:
         DEPLOY_ANT_PROCESS: ${{ secrets.DEPLOY_ANT_PROCESS }}
+        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
