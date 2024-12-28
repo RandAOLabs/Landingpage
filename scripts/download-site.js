@@ -1,5 +1,4 @@
-const axios = require('axios');
-const fs = require('fs');
+const { exec } = require('child_process');
 const path = require('path');
 
 async function downloadSite() {
@@ -12,17 +11,19 @@ async function downloadSite() {
 
         // Create dist directory if it doesn't exist
         const distPath = path.join(__dirname, '..', 'dist');
-        if (!fs.existsSync(distPath)) {
-            fs.mkdirSync(distPath, { recursive: true });
-        }
-
-        // Download the site content
-        const response = await axios.get(siteUrl);
         
-        // Write the content to index.html in the dist folder
-        fs.writeFileSync(path.join(distPath, 'index.html'), response.data);
+        // Use wget to mirror the entire site
+        const command = `wget --mirror --convert-links --adjust-extension --page-requisites --no-parent -P "${distPath}" ${siteUrl}`;
         
-        console.log('Site downloaded successfully!');
+        console.log('Starting site download...');
+        exec(command, (error, stdout, stderr) => {
+            if (error) {
+                console.error(`Error: ${error}`);
+                process.exit(1);
+            }
+            console.log('Site downloaded successfully!');
+            if (stderr) console.error(`Warnings: ${stderr}`);
+        });
     } catch (error) {
         console.error('Error downloading site:', error.message);
         process.exit(1);
