@@ -1,19 +1,22 @@
 {
   "name": "site-deployer",
   "version": "1.0.0",
-  "description": "Automated site downloader and permaweb deployer",
+  "description": "Site downloader and deployer",
   "main": "index.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "deploy": "npm run build && permaweb-deploy --deploy-folder ./dist --ant-process $DEPLOY_ANT_PROCESS",
+    "deploy": "npm run build && permaweb-deploy --deploy-folder ./dist --ant-process $DEPLOY_ANT_PROCESS --undername=puzzle",
     "lint": "eslint .",
     "preview": "vite preview",
     "download": "node scripts/download-site.js"
   },
   "dependencies": {
     "axios": "^1.6.0",
-    "permaweb-deploy": "^1.1.8"
+    "permaweb-deploy": "^1.1.8",
+    "cheerio": "^1.0.0-rc.12",
+    "node-fetch": "^2.6.7",
+    "mkdirp": "^3.0.1"
   },
   "devDependencies": {
     "typescript": "^5.0.0",
